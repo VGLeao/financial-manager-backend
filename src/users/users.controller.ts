@@ -7,12 +7,14 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { formatToken } from 'src/utils';
 
 @ApiTags('users')
 @Controller('users')
@@ -30,11 +32,11 @@ export class UsersController {
   //   return await this.usersService.findAll();
   // }
 
-  @UseGuards(JwtAuthGuard)
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
-  }
+  // @UseGuards(JwtAuthGuard)
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.usersService.findOne(+id);
+  // }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
@@ -46,5 +48,12 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/me')
+  getMe(@Request() req: any) {
+    const token = formatToken(req.headers.authorization);
+    return this.usersService.getMe(token);
   }
 }
