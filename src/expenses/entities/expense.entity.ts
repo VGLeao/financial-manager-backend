@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ExpenseCategory } from './expense-category.entity';
 
 @Entity()
 export class Expense {
@@ -41,4 +42,10 @@ export class Expense {
   @ManyToOne(() => User, (user) => user.expenses)
   @JoinColumn()
   user: User;
+
+  @ManyToOne(() => ExpenseCategory, (category) => category.expenses, {
+    cascade: ['insert'],
+  })
+  @JoinColumn()
+  category: ExpenseCategory;
 }

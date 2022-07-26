@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from 'src/users/entities/user.entity';
+import { ExpenseCategory } from '../entities/expense-category.entity';
 
 export class ExpenseDto {
   @ApiProperty()
@@ -22,4 +23,7 @@ export class ExpenseDto {
 
   @ApiProperty()
   user: User;
+
+  @ApiProperty()
+  category: ExpenseCategory;
 }
