@@ -6,7 +6,7 @@ export class ExpenseCategory {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @OneToMany(() => Expense, (expense) => expense.category, {
