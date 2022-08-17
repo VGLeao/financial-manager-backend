@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
+import { encodePassword } from 'src/utils/bcrypt';
 import { Repository } from 'typeorm';
 import { UserDto } from './dto/user.dto';
 import { User } from './entities/user.entity';
@@ -14,7 +15,8 @@ export class UsersService {
   ) {}
 
   async create(user: UserDto): Promise<User> {
-    return await this.userRepository.save(user);
+    const password = encodePassword(user.password);
+    return await this.userRepository.save({ ...user, password });
   }
 
   // async findAll(): Promise<User[]> {
